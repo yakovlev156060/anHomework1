@@ -7,6 +7,29 @@ import android.widget.ImageView
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
 
+fun thousands(n:Long):String{
+    val m:String
+    if(n<1000){
+        m=n.toString()
+    }
+    else{
+        if(n<10_000){
+            m=(n/1000).toString()+"."+(n/100-((n/1000)*10)).toString()+"K"
+        }
+        else{
+            if(n<1_000_000){
+                m=(n/1000).toString()+"K"
+            }
+            else{
+                var tmp:Long=n/1000
+                m=(tmp/1000).toString()+"."+(tmp/100-((tmp/1000)*10)).toString()+"M"
+            }
+        }
+
+    }
+    return m
+}
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         //println("zzz+ ${R.string.str_nmedia}")
         //println("zzz+ ${getString(R.string.str_nmedia)}")
         Log.d("aaaaaaaaa", "${R.string.str_nmedia}")
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
 
         var post = Post(
             id = 1,
@@ -56,6 +79,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 likeCount?.text=post.likes.toString()
 
+            }
+
+            share.setOnClickListener{
+                post.shares++
+                shareCount?.text=thousands(post.shares)
             }
 
         }
